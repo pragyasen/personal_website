@@ -1,4 +1,4 @@
-# Pragya Sen — Personal Website
+# Pragya Sen | Personal Website
 
 Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTML/CSS/JS and deployed on GitHub Pages.
 
@@ -31,7 +31,7 @@ The site deploys automatically via GitHub Actions when you push to `main`. Mediu
 1. Push this repo to GitHub
 2. Go to **Settings → Pages**
 3. Under **Build and deployment**, set Source to **GitHub Actions**
-4. Push to `main` — the workflow will build and deploy
+4. Push to `main` and the workflow will build and deploy
 
 Your site will be live at `https://pragyasen.github.io/personal_website/`
 
