@@ -6,13 +6,13 @@ Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTM
 
 ## Sections
 
-- **Home** — Bio and contact info
-- **Education** — Boston University, R.V College of Engineering
-- **Experience** — Dexmate, Handshake, Casa Carlini, Sandvine
-- **Skills** — ML, Python, testing tools, and more
-- **Projects** — 12 featured projects
-- **Blog** — Latest posts auto-pulled from [Medium](https://medium.com/@pragya_sen1)
-- **Dance** — Featured reels from [Instagram](https://www.instagram.com/pragya.sen1)
+- **Home**
+- **Education**
+- **Experience**
+- **Skills**
+- **Projects**
+- **Blog**
+- **Dance**
 
 ## Local development
 
