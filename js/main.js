@@ -36,6 +36,16 @@ function setActiveNav() {
     }
   });
 
+  const pathSection = document.querySelector('.path-section');
+  if (pathSection) {
+    const top = pathSection.offsetTop;
+    const next = pathSection.nextElementSibling;
+    const bottom = next ? next.offsetTop : top + pathSection.offsetHeight;
+    if (scrollPos >= top && scrollPos < bottom) {
+      current = document.querySelector('.path-tab.is-active')?.dataset.tab || 'education';
+    }
+  }
+
   navLinkEls.forEach((link) => {
     link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
   });
@@ -64,6 +74,175 @@ const revealObserver = new IntersectionObserver(
   { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
 );
 revealEls.forEach((el) => revealObserver.observe(el));
+
+// ── Experience: show two roles, scroll inside the list for the rest ──
+function initExperienceScroll() {
+  const scroller = document.getElementById('experience-scroll');
+  if (!scroller) return () => {};
+
+  const items = scroller.querySelectorAll('.timeline-item');
+  if (items.length <= 2) return () => {};
+
+  function setHeight() {
+    const second = items[1];
+    const height = second.offsetTop + second.offsetHeight;
+    if (height > 0) scroller.style.maxHeight = `${height}px`;
+    updateFade();
+  }
+
+  function updateFade() {
+    const atEnd = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4;
+    scroller.classList.toggle('at-end', atEnd);
+  }
+
+  setHeight();
+  scroller.addEventListener('scroll', updateFade, { passive: true });
+  window.addEventListener('resize', setHeight);
+  if (window.ResizeObserver) {
+    new ResizeObserver(setHeight).observe(scroller.querySelector('.timeline'));
+  }
+
+  return setHeight;
+}
+
+const refreshExperienceScroll = initExperienceScroll();
+
+// ── Education / Experience tabs ──
+function initPathTabs() {
+  const tabs = document.querySelectorAll('.path-tab');
+  const panels = document.querySelectorAll('.path-panel');
+  if (!tabs.length) return;
+
+  function showTab(name, { updateHash = true } = {}) {
+    const allowed = new Set(['education', 'experience', 'skills']);
+    const tabName = allowed.has(name) ? name : 'education';
+
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.tab === tabName;
+      tab.classList.toggle('is-active', selected);
+      tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+
+    panels.forEach((panel) => {
+      const selected = panel.dataset.panel === tabName;
+      panel.classList.toggle('is-hidden', !selected);
+      panel.hidden = !selected;
+    });
+
+    if (tabName === 'experience') {
+      requestAnimationFrame(() => {
+        refreshExperienceScroll();
+        requestAnimationFrame(refreshExperienceScroll);
+      });
+    }
+
+    if (updateHash) {
+      const nextHash = `#${tabName}`;
+      if (location.hash !== nextHash) {
+        history.replaceState(null, '', nextHash);
+      }
+    }
+
+    setActiveNav();
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => showTab(tab.dataset.tab));
+  });
+
+  function tabFromHash() {
+    const hash = location.hash.replace('#', '');
+    if (hash === 'education' || hash === 'experience' || hash === 'skills') {
+      showTab(hash, { updateHash: false });
+    }
+  }
+
+  window.addEventListener('hashchange', tabFromHash);
+  tabFromHash();
+}
+
+initPathTabs();
+
+// ── Projects carousel (2-row horizontal pages) ──
+function initProjectsCarousel() {
+  const carousel = document.getElementById('projects-carousel');
+  const nav = document.querySelector('.projects-carousel-nav');
+  const dotsEl = document.getElementById('projects-scroll-dots');
+  const prevBtn = document.querySelector('.projects-nav-prev');
+  const nextBtn = document.querySelector('.projects-nav-next');
+  const hint = document.querySelector('.projects-swipe-hint');
+  if (!carousel || !nav || !dotsEl || !prevBtn || !nextBtn) return;
+
+  function pageWidth() {
+    return carousel.clientWidth;
+  }
+
+  function pageCount() {
+    if (!pageWidth()) return 1;
+    return Math.max(1, Math.round(carousel.scrollWidth / pageWidth()));
+  }
+
+  function activePage() {
+    if (!pageWidth()) return 0;
+    return Math.min(pageCount() - 1, Math.round(carousel.scrollLeft / pageWidth()));
+  }
+
+  function renderDots() {
+    const n = pageCount();
+    nav.classList.toggle('is-single', n <= 1);
+    dotsEl.innerHTML = Array.from({ length: n }, (_, i) => (
+      `<button type="button" class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Projects page ${i + 1}"></button>`
+    )).join('');
+  }
+
+  function updateNav() {
+    const page = activePage();
+    const atStart = page === 0;
+    const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10;
+    dotsEl.querySelectorAll('.projects-scroll-dot').forEach((dot) => {
+      dot.classList.toggle('active', parseInt(dot.dataset.page, 10) === page);
+    });
+    prevBtn.classList.toggle('hidden', atStart);
+    nextBtn.classList.toggle('hidden', atEnd || pageCount() <= 1);
+  }
+
+  function goTo(index) {
+    const target = Math.max(0, Math.min(pageCount() - 1, index));
+    carousel.scrollTo({ left: target * pageWidth(), behavior: 'smooth' });
+  }
+
+  renderDots();
+  updateNav();
+
+  carousel.addEventListener('scroll', () => {
+    updateNav();
+    hint?.classList.add('dismissed');
+  }, { passive: true });
+
+  prevBtn.addEventListener('click', () => goTo(activePage() - 1));
+  nextBtn.addEventListener('click', () => goTo(activePage() + 1));
+
+  dotsEl.addEventListener('click', (e) => {
+    const dot = e.target.closest('.projects-scroll-dot');
+    if (!dot) return;
+    goTo(parseInt(dot.dataset.page, 10));
+  });
+
+  let resizeTimer;
+  const onResize = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      renderDots();
+      updateNav();
+    }, 120);
+  };
+  window.addEventListener('resize', onResize);
+  if (window.ResizeObserver) {
+    new ResizeObserver(onResize).observe(carousel);
+  }
+}
+
+initProjectsCarousel();
 
 // ── Load blog posts ──
 async function loadBlog() {  const grid = document.getElementById('blog-grid');
