@@ -2,12 +2,7 @@
   "name": "personal-website",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "build": "node scripts/fetch-blog.mjs",
     "dev": "npx serve ."
-  },
-  "devDependencies": {
-    "rss-parser": "^3.13.0"
   }
 }

@@ -11,20 +11,22 @@ Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTM
 - **Experience** — Dexmate, Handshake, Casa Carlini, Sandvine
 - **Skills** — ML, Python, testing tools, and more
 - **Projects** — 12 featured projects
-- **Blog** — Latest posts auto-pulled from [Medium](https://medium.com/@pragya_sen1)
+- **Blog** — Featured posts from [Medium](https://medium.com/@pragya_sen1)
 - **Dance** — Featured reels from [Instagram](https://www.instagram.com/pragya.sen1)
 
 ## Local development
 
 ```bash
-npm install
-npm run build    # fetches latest Medium posts → data/blog.json
-npx serve .      # preview at http://localhost:3000
+npx serve .
 ```
+
+Preview at http://localhost:3000.
+
+To update featured blog or dance posts, edit `data/blog.json` or `data/dance.json` and add images under `assets/`.
 
 ## Deployment
 
-The site deploys automatically via GitHub Actions when you push to `main`. Medium posts are also refreshed daily by a scheduled workflow.
+The site deploys automatically via GitHub Actions when you push to `main`.
 
 ### First-time GitHub Pages setup
 
