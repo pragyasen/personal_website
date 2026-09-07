@@ -56,8 +56,16 @@
         <li><a href="#experience" class="nav-link">Experience</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#blog" class="nav-link">Blog</a></li>
-        <li><a href="#dance" class="nav-link">Dance</a></li>
-        <li><a href="#random" class="nav-link">Random</a></li>
+        <li class="nav-item has-dropdown">
+          <a href="#random" class="nav-link">Random</a>
+          <ul class="nav-dropdown" aria-label="Random sections">
+            <li><a href="#dance" class="nav-dropdown-link">Dance</a></li>
+            <li><a href="#music" class="nav-dropdown-link">Music</a></li>
+            <li><a href="#travel" class="nav-dropdown-link">Travel</a></li>
+            <li><a href="#content" class="nav-dropdown-link">Content</a></li>
+          </ul>
+        </li>
+        <li><a href="#sky" class="nav-link">Sky</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
     </nav>
@@ -190,7 +198,7 @@
                   <time class="timeline-date">March 2023 – Aug 2024</time>
                   <h3 class="timeline-role">Test Engineer-II, Test Engineer-I, Software Intern</h3>
                   <p class="timeline-org">Sandvine Technologies</p>
-                  <p class="timeline-desc">Worked on Software test automation using Python, Selenium, Appium, Flask, etc. Developed a test-suite for automated testing of applications for traffic generation and provided multi-site support (4 sites — Bangalore, Waterloo, Dallas, Malmo). Handled the Bangalore lab-site as the primary owner. It had two setups (Fixed and Wireless) with a total of more than 24 devices. More than 1000 test cases per setup were run on a daily basis.</p>
+                  <p class="timeline-desc">Worked on Software test automation using Python, Selenium, Appium, Flask, etc. Developed a test-suite for automated testing of applications for traffic generation and provided multi-site support (4 sites: Bangalore, Waterloo, Dallas, Malmo). Handled the Bangalore lab-site as the primary owner. It had two setups (Fixed and Wireless) with a total of more than 24 devices. More than 1000 test cases per setup were run on a daily basis.</p>
                 </div>
               </article>
             </div>
@@ -313,7 +321,7 @@
           <h2 class="section-title">blog</h2>
         </header>
         <div class="section-intro reveal">
-          <p>I started writing on Medium to document my thoughts as I learn! Feel free to give my articles a read :)</p>
+          <p>I started writing on Medium to document my thoughts as I learn! I've only written technical articles so far, but slowly want to start writing about other things as well. Feel free to give my articles a read :)</p>
         </div>
         <div id="blog-grid" class="blog-grid">
           <div class="blog-loading">Loading posts…</div>
@@ -324,42 +332,40 @@
       </div>
     </section>
 
-    <!-- DANCE -->
-    <section id="dance" class="section section-alt">
-      <div class="section-inner">
-        <header class="section-header reveal">
-          <span class="section-tag">check out my reels :) </span>
-          <h2 class="section-title">dance</h2>
-        </header>
-        <div class="section-intro reveal">
-          <p>I unwind by dancing 💃🏽</p>
-          <p>I started learning how to dance at 5 (mom made me take Kathak classes) and now I post dance videos for fun!</p>
-        </div>
-        <div id="dance-grid" class="dance-grid">
-          <div class="dance-loading">Loading posts…</div>
-        </div>
-        <div class="dance-footer reveal">
-          <a href="https://www.instagram.com/pragya.sen1" class="btn-outline" target="_blank" rel="noopener noreferrer">View all on Instagram →</a>
-        </div>
-      </div>
-    </section>
-
     <!-- RANDOM -->
-    <section id="random" class="section">
+    <section id="random" class="section section-alt">
       <div class="section-inner">
+        <span class="hash-target" id="dance"></span>
+        <span class="hash-target" id="music"></span>
+        <span class="hash-target" id="travel"></span>
+        <span class="hash-target" id="content"></span>
         <header class="section-header reveal">
+          <span class="section-tag">random things you should know about me</span>
           <h2 class="section-title">random</h2>
         </header>
         <div class="path-tabs reveal" role="tablist" aria-label="Random">
-          <button type="button" class="path-tab is-active" role="tab" id="tab-travel" data-tab="travel" aria-selected="true" aria-controls="panel-travel">Travel</button>
+          <button type="button" class="path-tab is-active" role="tab" id="tab-dance" data-tab="dance" aria-selected="true" aria-controls="panel-dance">Dance</button>
           <button type="button" class="path-tab" role="tab" id="tab-music" data-tab="music" aria-selected="false" aria-controls="panel-music">Music</button>
+          <button type="button" class="path-tab" role="tab" id="tab-travel" data-tab="travel" aria-selected="false" aria-controls="panel-travel">Travel</button>
+          <button type="button" class="path-tab" role="tab" id="tab-content" data-tab="content" aria-selected="false" aria-controls="panel-content">Content</button>
         </div>
-        <div class="path-panel" role="tabpanel" id="panel-travel" data-panel="travel" aria-labelledby="tab-travel"></div>
+        <div class="path-panel" role="tabpanel" id="panel-dance" data-panel="dance" aria-labelledby="tab-dance">
+          <div class="section-intro">
+            <p>I unwind by dancing 💃🏽</p>
+            <p>Started learning how to dance at 5 (mom made me take Kathak classes) and now I post dance videos for fun!</p>
+          </div>
+          <div id="dance-grid" class="dance-grid">
+            <div class="dance-loading">Loading posts…</div>
+          </div>
+          <div class="dance-footer">
+            <a href="https://www.instagram.com/pragya.sen1" class="btn-outline" target="_blank" rel="noopener noreferrer">View all on Instagram →</a>
+          </div>
+        </div>
         <div class="path-panel is-hidden" role="tabpanel" id="panel-music" data-panel="music" aria-labelledby="tab-music" hidden>
           <div class="music-carousel-wrapper">
             <div class="music-page" id="music-carousel">
               <article class="music-slide music-song">
-                <p class="music-kicker">Current Obsession</p>
+                <p class="music-kicker">Currently on loop</p>
                 <!-- <h3><a href="https://open.spotify.com/track/3OzCF9i6Ey7EkkAYJztmKp" target="_blank" rel="noopener noreferrer">Bad At Love</a></h3>
                 <p>Halsey</p> -->
                 <iframe
@@ -448,11 +454,34 @@
             <p class="projects-swipe-hint" id="music-swipe-hint">swipe for more</p>
           </nav>
         </div>
+        <div class="path-panel is-hidden" role="tabpanel" id="panel-travel" data-panel="travel" aria-labelledby="tab-travel" hidden>
+          <div class="section-intro">
+            <p>Wanted to document all the places I've been to since moving to a new country (this part of the site will be up by next week)</p>
+          </div>
+        </div>
+        <div class="path-panel is-hidden" role="tabpanel" id="panel-content" data-panel="content" aria-labelledby="tab-content" hidden>
+          <div class="section-intro">
+            <p>I'm writing an article on all the fun content I've consumed this year (books, movies, etc.). Will link it here when it's done!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIGITAL SKY -->
+    <section id="sky" class="section">
+      <div class="section-inner">
+        <header class="section-header reveal">
+          <h2 class="section-title">digital sky</h2>
+        </header>
+        <hr class="sky-rule" />
+        <p class="sky-copy reveal">A star is born here for every visit to this page, and a celestial friend joins for every 5 visits.</p>
+        <p class="sky-stats" id="sky-stats">counting visits…</p>
+        <div class="sky-atlas" id="sky-atlas" aria-label="Visit constellation"></div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="section">
+    <section id="contact" class="section section-alt">
       <div class="section-inner">
         <header class="section-header reveal">
           <span class="section-tag">Contact</span>

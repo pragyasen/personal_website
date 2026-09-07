@@ -8,7 +8,7 @@ navToggle.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', open);
 });
 
-document.querySelectorAll('.nav-link').forEach((link) => {
+document.querySelectorAll('.nav-links a').forEach((link) => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('open');
     navToggle.classList.remove('open');
@@ -249,7 +249,6 @@ function initSectionTabs(root, { allowed, defaultTab, hashMode }) {
   });
 
   function tabFromHash() {
-    if (hashMode !== 'tab') return;
     const hash = location.hash.replace('#', '');
     if (allowedSet.has(hash)) {
       showTab(hash, { updateHash: false });
@@ -267,8 +266,8 @@ initSectionTabs(document.querySelector('.path-section'), {
 });
 
 initSectionTabs(document.getElementById('random'), {
-  allowed: ['travel', 'music'],
-  defaultTab: 'travel',
+  allowed: ['dance', 'music', 'travel', 'content'],
+  defaultTab: 'dance',
   hashMode: 'section',
 });
 
@@ -377,3 +376,91 @@ function escapeHtml(str) {
 
 loadBlog();
 loadDance();
+initDigitalSky();
+
+function initDigitalSky() {
+  const atlas = document.getElementById('sky-atlas');
+  const stats = document.getElementById('sky-stats');
+  if (!atlas || !stats) return;
+
+  const SESSION_KEY = 'sky-visit-counted';
+  const CACHE_KEY = 'sky-visit-count';
+  const NAMESPACE = 'pragyasen-github-io';
+  const COUNTER = 'personal-website-sky';
+  const HOSTS = ['https://abacus.jsn.cam', 'https://abacus.jasoncameron.dev'];
+  const MAX_RENDER = 240;
+  const CELESTIAL = ['moon', 'saturn', 'comet', 'planet', 'rocket'];
+
+  const ICONS = {
+    star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.4l2.05 6.9H21l-5.6 4.2 2.1 7-5.5-4.05L6.5 19.5l2.1-7L3 8.3h6.95z"/></svg>',
+    moon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.2 3.1a8.6 8.6 0 1 0 6.7 14.3A9 9 0 0 1 14.2 3.1z"/></svg>',
+    saturn: '<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="5.2" fill="currentColor"/></svg>',
+    comet: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4l7.2 3.1L8.9 11.2 4 4zm8.6 4.4 2.1 2.1-1.2 3.2-2.1-2.1 1.2-3.2zM14.8 12.2a4.2 4.2 0 1 1-5.9 5.9 4.2 4.2 0 0 1 5.9-5.9z"/></svg>',
+    planet: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="currentColor" opacity=".9"/><path fill="none" stroke="#050e1c" stroke-width="1.4" d="M7.2 10.2c2.2 1.4 7.4 1.6 9.6.2"/></svg>',
+    rocket: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.8 3.2c2.8 1.1 5 3.8 5.9 7.1-2.2-.2-4.6-1.2-6.4-3-1.8-1.8-2.8-4.2-3-6.4 1.1.3 2.4.8 3.5 2.3zM8.4 10.1l5.5 5.5-2.4 1.2-4.3-4.3 1.2-2.4zm-2.7 6.6 2.6.7.7 2.6-2.2 1.1-2.2-2.2 1.1-2.2z"/></svg>',
+  };
+
+  function mark(kind) {
+    const span = document.createElement('span');
+    span.className = `sky-mark sky-mark--${kind}`;
+    span.innerHTML = ICONS[kind] || ICONS.star;
+    return span;
+  }
+
+  function render(visits) {
+    const bodies = Math.floor(visits / 5);
+    stats.textContent = `${visits} visits · ${visits} stars born · ${bodies} celestial friends joined`;
+
+    const show = Math.min(visits, MAX_RENDER);
+    const frag = document.createDocumentFragment();
+    atlas.replaceChildren();
+
+    for (let i = 1; i <= show; i += 1) {
+      frag.appendChild(mark('star'));
+      if (i % 5 === 0) {
+        frag.appendChild(mark(CELESTIAL[(i / 5 - 1) % CELESTIAL.length]));
+      }
+    }
+
+    atlas.appendChild(frag);
+  }
+
+  async function readCount(increment) {
+    const path = increment ? 'hit' : 'get';
+    let lastError = new Error('counter unavailable');
+
+    for (const host of HOSTS) {
+      try {
+        const response = await fetch(`${host}/${path}/${NAMESPACE}/${COUNTER}`);
+        if (response.ok) {
+          const data = await response.json();
+          return Number(data.value) || 0;
+        }
+        if (!increment && response.status === 404) return 0;
+        lastError = new Error(`counter ${response.status}`);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    throw lastError;
+  }
+
+  (async () => {
+    const alreadyCounted = sessionStorage.getItem(SESSION_KEY) === '1';
+    const cached = Number(localStorage.getItem(CACHE_KEY) || 0);
+
+    if (cached > 0) render(cached);
+
+    try {
+      const visits = await readCount(!alreadyCounted);
+      if (!alreadyCounted) sessionStorage.setItem(SESSION_KEY, '1');
+      localStorage.setItem(CACHE_KEY, String(visits));
+      render(visits);
+    } catch {
+      if (!cached) {
+        stats.textContent = "couldn't count visits right now — the sky will fill in soon";
+      }
+    }
+  })();
+}
