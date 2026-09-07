@@ -1,0 +1,29 @@
+{
+  "profile": "https://www.instagram.com/pragya.sen1",
+  "posts": [
+    {
+      "title": "Dance reel",
+      "link": "https://www.instagram.com/reel/Dcm8CEuBNhV/",
+      "image": "assets/dance/reel-1.jpg",
+      "isVideo": true
+    },
+    {
+      "title": "Dance reel",
+      "link": "https://www.instagram.com/reel/DKLZLvdy7CZ/",
+      "image": "assets/dance/reel-2.jpg",
+      "isVideo": true
+    },
+    {
+      "title": "Dance reel",
+      "link": "https://www.instagram.com/reel/C0ZIohvSRKM/",
+      "image": "assets/dance/reel-3.jpg",
+      "isVideo": true
+    },
+    {
+      "title": "Dance reel",
+      "link": "https://www.instagram.com/reel/DHFJq6GMAIH/",
+      "image": "assets/dance/reel-4.jpg",
+      "isVideo": true
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "fetchedAt": "2026-09-06T07:52:26.294Z",
+  "source": "https://medium.com/feed/@pragya_sen1",
+  "posts": [
+    {
+      "title": "The art of making LLMs faster: Inference Optimization",
+      "link": "https://medium.com/@pragya_sen1/the-art-of-making-llms-faster-inference-optimization-b88c1f385fe9?source=rss-762942be96ee------2",
+      "date": "2026-07-15T22:10:58.000Z",
+      "excerpt": "Training a large language model gets the headlines, but training happens once. Inference, i.e., the process of actually answering a prompt happens billions of times a day, and it’s where most of the real engineering effo…",
+      "image": "https://cdn-images-1.medium.com/max/445/1*l1yWew321AtnAGR9OYmgkw.png",
+      "tags": [
+        "latency",
+        "inference-optimization",
+        "llm-inference"
+      ]
+    },
+    {
+      "title": "Meet the LPU",
+      "link": "https://medium.com/@pragya_sen1/meet-the-lpu-9b20e85a62e5?source=rss-762942be96ee------2",
+      "date": "2026-04-08T01:24:56.000Z",
+      "excerpt": "Everyone talks about bigger models and better prompts. But the real bottleneck in AI today is latency. Every LLM response is generated one token at a time. That’s where traditional hardware starts to struggle.A Language …",
+      "image": "https://cdn-images-1.medium.com/max/1024/1*lH13D-WKmLskzJngkHF4mw.png",
+      "tags": [
+        "llms-utilization",
+        "ai-training",
+        "ai-inferencing",
+        "lpu"
+      ]
+    },
+    {
+      "title": "RAG-to-riches: How MCP & Graphs unlock hidden treasure",
+      "link": "https://medium.com/@pragya_sen1/rag-to-riches-how-mcp-graphs-unlock-hidden-treasure-23b2a412bf69?source=rss-762942be96ee------2",
+      "date": "2025-11-27T01:22:40.000Z",
+      "excerpt": "Last year, Transformers were the talk of the tech-town. This year, the spotlight has shifted to RAG. After finishing a rather intriguing RAG project, I thought it deserved more than a GitHub commit, hence this article :)…",
+      "image": "https://cdn-images-1.medium.com/max/1024/0*MPvOtNLpJUJx9uCd.png",
+      "tags": [
+        "mcps",
+        "graphrag",
+        "rags",
+        "knowledge-graph"
+      ]
+    },
+    {
+      "title": "Significance Tests",
+      "link": "https://medium.com/@pragya_sen1/significance-tests-b28eeb3df956?source=rss-762942be96ee------2",
+      "date": "2025-09-29T00:32:04.000Z",
+      "excerpt": "I want to discuss Significance Tests because we all know how to run different Machine Learning models on data, but these tests help us figure out if the patterns we see are worth focusing on. Patterns in data can be seen…",
+      "image": "https://cdn-images-1.medium.com/max/515/0*xxsiti8bYhblwUoS.jpg",
+      "tags": [
+        "data-analysis",
+        "parametric-tests",
+        "significance-testing",
+        "nonparametric-test",
+        "statistics"
+      ]
+    },
+    {
+      "title": "RNNs walked so BERT and GPT could talk",
+      "link": "https://medium.com/@pragya_sen1/rnns-walked-so-bert-and-gpt-could-talk-d9354acbcb96?source=rss-762942be96ee------2",
+      "date": "2025-09-12T21:53:42.000Z",
+      "excerpt": "I worked on a Natural Language Processing (NLP) project last Spring that led me to utilize BERT, and here’s a deep-dive into everything I learnt along the way!Recurrent Neural Networks (RNNs)These are a type of Neural Ne…",
+      "image": "https://cdn-images-1.medium.com/max/787/0*SL5Ke-DZ4GEWUBi0.gif",
+      "tags": [
+        "software",
+        "transformers",
+        "ai",
+        "nlp",
+        "llm"
+      ]
+    }
+  ]
+}
