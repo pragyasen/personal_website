@@ -54,10 +54,10 @@
         <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#education" class="nav-link">Education</a></li>
         <li><a href="#experience" class="nav-link">Experience</a></li>
-        <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#blog" class="nav-link">Blog</a></li>
         <li><a href="#dance" class="nav-link">Dance</a></li>
+        <li><a href="#random" class="nav-link">Random</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
     </nav>
@@ -294,13 +294,13 @@
           </article>
           </div>
         </div>
-        <nav class="projects-carousel-nav" aria-label="Project pages">
+        <nav class="projects-carousel-nav" id="projects-carousel-nav" aria-label="Project pages">
           <div class="projects-scroll-dots-row">
-            <button type="button" class="projects-nav-prev hidden" aria-label="Previous projects">← back</button>
+            <button type="button" class="projects-nav-prev hidden" id="projects-nav-prev" aria-label="Previous projects">← back</button>
             <div class="projects-scroll-dots" id="projects-scroll-dots"></div>
-            <button type="button" class="projects-nav-next hidden" aria-label="More projects">more projects →</button>
+            <button type="button" class="projects-nav-next hidden" id="projects-nav-next" aria-label="More projects">more projects →</button>
           </div>
-          <p class="projects-swipe-hint">swipe for more</p>
+          <p class="projects-swipe-hint" id="projects-swipe-hint">swipe for more</p>
         </nav>
       </div>
     </section>
@@ -310,7 +310,7 @@
       <div class="section-inner">
         <header class="section-header reveal">
           <span class="section-tag">Latest from Medium</span>
-          <h2 class="section-title">My blog</h2>
+          <h2 class="section-title">blog</h2>
         </header>
         <div class="section-intro reveal">
           <p>I started writing on Medium to document my thoughts as I learn! Feel free to give my articles a read :)</p>
@@ -329,7 +329,7 @@
       <div class="section-inner">
         <header class="section-header reveal">
           <span class="section-tag">check out my reels :) </span>
-          <h2 class="section-title">Dance</h2>
+          <h2 class="section-title">dance</h2>
         </header>
         <div class="section-intro reveal">
           <p>I unwind by dancing 💃🏽</p>
@@ -340,6 +340,113 @@
         </div>
         <div class="dance-footer reveal">
           <a href="https://www.instagram.com/pragya.sen1" class="btn-outline" target="_blank" rel="noopener noreferrer">View all on Instagram →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- RANDOM -->
+    <section id="random" class="section">
+      <div class="section-inner">
+        <header class="section-header reveal">
+          <h2 class="section-title">random</h2>
+        </header>
+        <div class="path-tabs reveal" role="tablist" aria-label="Random">
+          <button type="button" class="path-tab is-active" role="tab" id="tab-travel" data-tab="travel" aria-selected="true" aria-controls="panel-travel">Travel</button>
+          <button type="button" class="path-tab" role="tab" id="tab-music" data-tab="music" aria-selected="false" aria-controls="panel-music">Music</button>
+        </div>
+        <div class="path-panel" role="tabpanel" id="panel-travel" data-panel="travel" aria-labelledby="tab-travel"></div>
+        <div class="path-panel is-hidden" role="tabpanel" id="panel-music" data-panel="music" aria-labelledby="tab-music" hidden>
+          <div class="music-carousel-wrapper">
+            <div class="music-page" id="music-carousel">
+              <article class="music-slide music-song">
+                <p class="music-kicker">Current Obsession</p>
+                <!-- <h3><a href="https://open.spotify.com/track/3OzCF9i6Ey7EkkAYJztmKp" target="_blank" rel="noopener noreferrer">Bad At Love</a></h3>
+                <p>Halsey</p> -->
+                <iframe
+                  class="music-spotify"
+                  src="https://open.spotify.com/embed/track/3OzCF9i6Ey7EkkAYJztmKp"
+                  width="100%"
+                  height="152"
+                  frameborder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  title="Bad At Love by Halsey on Spotify"
+                ></iframe>
+              </article>
+
+              <article class="music-slide music-feature">
+                <div class="music-feature-photo-wrap">
+                  <img class="music-feature-photo" src="assets/music/shreya-ghoshal.png" alt="Shreya Ghoshal" />
+                </div>
+                <div class="music-feature-copy">
+                  <p class="music-kicker">fav artist of all time</p>
+                  <h3>Shreya Ghoshal</h3>
+                  <p>my dad had a CD with all her popular songs and I played it in the car ALL THE TIME</p>
+                </div>
+              </article>
+
+              <article class="music-slide music-song">
+                <p class="music-kicker">Fav song of all time</p>
+                <!-- <h3><a href="https://open.spotify.com/track/11PgL2XjsTBszhAPqttBJS" target="_blank" rel="noopener noreferrer">Raabta (Kehte Hain Khuda Ne)</a></h3>
+                <p>Pritam, Shreya Ghoshal, Arijit Singh</p> -->
+                <iframe
+                  class="music-spotify"
+                  src="https://open.spotify.com/embed/track/11PgL2XjsTBszhAPqttBJS"
+                  width="100%"
+                  height="152"
+                  frameborder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  title="Raabta (Kehte Hain Khuda Ne) on Spotify"
+                ></iframe>
+              </article>
+
+              <article class="music-slide music-others">
+                <p class="music-kicker">Other artists I listen to</p>
+                <p class="music-others-note">nothing wrong with being a lil basic in my opinion</p>
+                <div class="music-artist-grid">
+                  <figure class="music-artist">
+                    <div class="music-feature-photo-wrap">
+                      <img class="music-feature-photo music-crop-tate" src="assets/music/tate-mcrae.jpg" alt="Tate McRae" />
+                    </div>
+                    <figcaption>Tate McRae</figcaption>
+                  </figure>
+                  <figure class="music-artist">
+                    <div class="music-feature-photo-wrap">
+                      <img class="music-feature-photo music-crop-sabrina" src="assets/music/sabrina-carpenter.png" alt="Sabrina Carpenter" />
+                    </div>
+                    <figcaption>Sabrina Carpenter</figcaption>
+                  </figure>
+                  <figure class="music-artist">
+                    <div class="music-feature-photo-wrap">
+                      <img class="music-feature-photo music-crop-taylor" src="assets/music/taylor-swift.png" alt="Taylor Swift" />
+                    </div>
+                    <figcaption>Taylor Swift</figcaption>
+                  </figure>
+                  <figure class="music-artist">
+                    <div class="music-feature-photo-wrap">
+                      <img class="music-feature-photo music-crop-halsey" src="assets/music/halsey.png" alt="Halsey" />
+                    </div>
+                    <figcaption>Halsey</figcaption>
+                  </figure>
+                  <figure class="music-artist">
+                    <div class="music-feature-photo-wrap">
+                      <img class="music-feature-photo music-crop-madison" src="assets/music/madison-beer.png" alt="Madison Beer" />
+                    </div>
+                    <figcaption>Madison Beer</figcaption>
+                  </figure>
+                </div>
+              </article>
+            </div>
+          </div>
+          <nav class="projects-carousel-nav" id="music-carousel-nav" aria-label="Music pages">
+            <div class="projects-scroll-dots-row">
+              <button type="button" class="projects-nav-prev hidden" id="music-nav-prev" aria-label="Previous">← back</button>
+              <div class="projects-scroll-dots" id="music-scroll-dots"></div>
+              <button type="button" class="projects-nav-next hidden" id="music-nav-next" aria-label="Next">fav artist →</button>
+            </div>
+            <p class="projects-swipe-hint" id="music-swipe-hint">swipe for more</p>
+          </nav>
         </div>
       </div>
     </section>

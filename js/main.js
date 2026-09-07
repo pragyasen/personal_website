@@ -107,15 +107,106 @@ function initExperienceScroll() {
 
 const refreshExperienceScroll = initExperienceScroll();
 
-// ── Education / Experience tabs ──
-function initPathTabs() {
-  const tabs = document.querySelectorAll('.path-tab');
-  const panels = document.querySelectorAll('.path-panel');
+function initSnapCarousel({ carousel, nav, dotsEl, prevBtn, nextBtn, hint, nextLabels }) {
+  if (!carousel || !nav || !dotsEl || !prevBtn || !nextBtn) return () => {};
+
+  function pageWidth() {
+    return carousel.clientWidth;
+  }
+
+  function pageCount() {
+    if (!pageWidth()) return 1;
+    return Math.max(1, Math.round(carousel.scrollWidth / pageWidth()));
+  }
+
+  function activePage() {
+    if (!pageWidth()) return 0;
+    return Math.min(pageCount() - 1, Math.round(carousel.scrollLeft / pageWidth()));
+  }
+
+  function renderDots() {
+    const n = pageCount();
+    nav.classList.toggle('is-single', pageWidth() > 0 && n <= 1);
+    dotsEl.innerHTML = Array.from({ length: n }, (_, i) => (
+      `<button type="button" class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
+    )).join('');
+  }
+
+  function updateNav() {
+    const page = activePage();
+    const atStart = page === 0;
+    const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10;
+    dotsEl.querySelectorAll('.projects-scroll-dot').forEach((dot) => {
+      dot.classList.toggle('active', parseInt(dot.dataset.page, 10) === page);
+    });
+    prevBtn.classList.toggle('hidden', atStart);
+    nextBtn.classList.toggle('hidden', atEnd || pageCount() <= 1);
+    if (nextLabels?.length) {
+      nextBtn.textContent = nextLabels[page] || 'more →';
+    }
+  }
+
+  function goTo(index) {
+    const target = Math.max(0, Math.min(pageCount() - 1, index));
+    carousel.scrollTo({ left: target * pageWidth(), behavior: 'smooth' });
+  }
+
+  function refresh() {
+    renderDots();
+    updateNav();
+  }
+
+  refresh();
+
+  carousel.addEventListener('scroll', () => {
+    updateNav();
+    hint?.classList.add('dismissed');
+  }, { passive: true });
+
+  prevBtn.addEventListener('click', () => goTo(activePage() - 1));
+  nextBtn.addEventListener('click', () => goTo(activePage() + 1));
+
+  dotsEl.addEventListener('click', (e) => {
+    const dot = e.target.closest('.projects-scroll-dot');
+    if (!dot) return;
+    goTo(parseInt(dot.dataset.page, 10));
+  });
+
+  let resizeTimer;
+  const onResize = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(refresh, 120);
+  };
+  window.addEventListener('resize', onResize);
+  if (window.ResizeObserver) {
+    new ResizeObserver(onResize).observe(carousel);
+  }
+
+  return refresh;
+}
+
+const refreshMusicCarousel = initSnapCarousel({
+  carousel: document.getElementById('music-carousel'),
+  nav: document.getElementById('music-carousel-nav'),
+  dotsEl: document.getElementById('music-scroll-dots'),
+  prevBtn: document.getElementById('music-nav-prev'),
+  nextBtn: document.getElementById('music-nav-next'),
+  hint: document.getElementById('music-swipe-hint'),
+  nextLabels: ['fav artist →', 'fav song →', 'more artists →'],
+});
+
+// ── Education / Experience / Skills tabs ──
+function initSectionTabs(root, { allowed, defaultTab, hashMode }) {
+  if (!root) return;
+
+  const tabs = root.querySelectorAll('.path-tab');
+  const panels = root.querySelectorAll('.path-panel');
   if (!tabs.length) return;
 
+  const allowedSet = new Set(allowed);
+
   function showTab(name, { updateHash = true } = {}) {
-    const allowed = new Set(['education', 'experience', 'skills']);
-    const tabName = allowed.has(name) ? name : 'education';
+    const tabName = allowedSet.has(name) ? name : defaultTab;
 
     tabs.forEach((tab) => {
       const selected = tab.dataset.tab === tabName;
@@ -136,7 +227,14 @@ function initPathTabs() {
       });
     }
 
-    if (updateHash) {
+    if (tabName === 'music') {
+      requestAnimationFrame(() => {
+        refreshMusicCarousel();
+        requestAnimationFrame(refreshMusicCarousel);
+      });
+    }
+
+    if (updateHash && hashMode === 'tab') {
       const nextHash = `#${tabName}`;
       if (location.hash !== nextHash) {
         history.replaceState(null, '', nextHash);
@@ -151,8 +249,9 @@ function initPathTabs() {
   });
 
   function tabFromHash() {
+    if (hashMode !== 'tab') return;
     const hash = location.hash.replace('#', '');
-    if (hash === 'education' || hash === 'experience' || hash === 'skills') {
+    if (allowedSet.has(hash)) {
       showTab(hash, { updateHash: false });
     }
   }
@@ -161,88 +260,26 @@ function initPathTabs() {
   tabFromHash();
 }
 
-initPathTabs();
+initSectionTabs(document.querySelector('.path-section'), {
+  allowed: ['education', 'experience', 'skills'],
+  defaultTab: 'education',
+  hashMode: 'tab',
+});
 
-// ── Projects carousel (2-row horizontal pages) ──
-function initProjectsCarousel() {
-  const carousel = document.getElementById('projects-carousel');
-  const nav = document.querySelector('.projects-carousel-nav');
-  const dotsEl = document.getElementById('projects-scroll-dots');
-  const prevBtn = document.querySelector('.projects-nav-prev');
-  const nextBtn = document.querySelector('.projects-nav-next');
-  const hint = document.querySelector('.projects-swipe-hint');
-  if (!carousel || !nav || !dotsEl || !prevBtn || !nextBtn) return;
+initSectionTabs(document.getElementById('random'), {
+  allowed: ['travel', 'music'],
+  defaultTab: 'travel',
+  hashMode: 'section',
+});
 
-  function pageWidth() {
-    return carousel.clientWidth;
-  }
-
-  function pageCount() {
-    if (!pageWidth()) return 1;
-    return Math.max(1, Math.round(carousel.scrollWidth / pageWidth()));
-  }
-
-  function activePage() {
-    if (!pageWidth()) return 0;
-    return Math.min(pageCount() - 1, Math.round(carousel.scrollLeft / pageWidth()));
-  }
-
-  function renderDots() {
-    const n = pageCount();
-    nav.classList.toggle('is-single', n <= 1);
-    dotsEl.innerHTML = Array.from({ length: n }, (_, i) => (
-      `<button type="button" class="projects-scroll-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Projects page ${i + 1}"></button>`
-    )).join('');
-  }
-
-  function updateNav() {
-    const page = activePage();
-    const atStart = page === 0;
-    const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10;
-    dotsEl.querySelectorAll('.projects-scroll-dot').forEach((dot) => {
-      dot.classList.toggle('active', parseInt(dot.dataset.page, 10) === page);
-    });
-    prevBtn.classList.toggle('hidden', atStart);
-    nextBtn.classList.toggle('hidden', atEnd || pageCount() <= 1);
-  }
-
-  function goTo(index) {
-    const target = Math.max(0, Math.min(pageCount() - 1, index));
-    carousel.scrollTo({ left: target * pageWidth(), behavior: 'smooth' });
-  }
-
-  renderDots();
-  updateNav();
-
-  carousel.addEventListener('scroll', () => {
-    updateNav();
-    hint?.classList.add('dismissed');
-  }, { passive: true });
-
-  prevBtn.addEventListener('click', () => goTo(activePage() - 1));
-  nextBtn.addEventListener('click', () => goTo(activePage() + 1));
-
-  dotsEl.addEventListener('click', (e) => {
-    const dot = e.target.closest('.projects-scroll-dot');
-    if (!dot) return;
-    goTo(parseInt(dot.dataset.page, 10));
-  });
-
-  let resizeTimer;
-  const onResize = () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      renderDots();
-      updateNav();
-    }, 120);
-  };
-  window.addEventListener('resize', onResize);
-  if (window.ResizeObserver) {
-    new ResizeObserver(onResize).observe(carousel);
-  }
-}
-
-initProjectsCarousel();
+initSnapCarousel({
+  carousel: document.getElementById('projects-carousel'),
+  nav: document.getElementById('projects-carousel-nav'),
+  dotsEl: document.getElementById('projects-scroll-dots'),
+  prevBtn: document.getElementById('projects-nav-prev'),
+  nextBtn: document.getElementById('projects-nav-next'),
+  hint: document.getElementById('projects-swipe-hint'),
+});
 
 // ── Load blog posts ──
 async function loadBlog() {  const grid = document.getElementById('blog-grid');

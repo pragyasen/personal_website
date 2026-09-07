@@ -296,6 +296,162 @@ img { max-width: 100%; display: block; }
 .path-panel.is-hidden {
   display: none;
 }
+.path-panel:empty {
+  min-height: 8rem;
+}
+
+.music-carousel-wrapper {
+  overflow: hidden;
+  padding: 6px 0 12px;
+}
+.music-page {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  scrollbar-width: none;
+}
+.music-page::-webkit-scrollbar {
+  display: none;
+}
+.music-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+}
+.music-kicker {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.music-feature {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.music-feature-photo-wrap {
+  flex-shrink: 0;
+  width: min(158px, 28vw);
+  aspect-ratio: 1 / 1.2;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.music-feature-photo-wrap:hover {
+  border-color: rgba(142, 192, 234, 0.35);
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 28px rgba(142, 192, 234, 0.2);
+}
+.music-feature-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+  transform: scale(1.05);
+  transition: transform var(--transition);
+}
+.music-feature-photo-wrap:hover .music-feature-photo {
+  transform: scale(1.1);
+}
+.music-feature-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.music-feature-copy h3 {
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.music-feature-copy p,
+.music-song p,
+.music-others-note {
+  color: var(--text-muted);
+}
+.music-song {
+  flex-direction: column;
+}
+.music-song h3 {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.music-spotify {
+  display: block;
+  flex: 1;
+  width: 100%;
+  margin-top: 0.85rem;
+  min-height: 152px;
+  border: 0;
+  border-radius: var(--radius);
+}
+.music-others {
+  flex-direction: column;
+}
+.music-others-note {
+  margin-bottom: 0.15rem;
+}
+.music-artist-grid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 0.85rem;
+}
+.music-artist {
+  margin: 0;
+  text-align: center;
+  flex: 0 0 auto;
+}
+.music-crop-tate {
+  object-position: center 10%;
+}
+.music-crop-sabrina {
+  object-position: 52% 18%;
+}
+.music-crop-taylor {
+  object-position: center 18%;
+  transform: scale(1.45);
+}
+.music-feature-photo-wrap:hover .music-crop-taylor {
+  transform: scale(1.52);
+}
+.music-crop-halsey {
+  object-position: center 20%;
+}
+.music-crop-madison {
+  object-position: 52% 12%;
+  transform: scale(1.4);
+}
+.music-feature-photo-wrap:hover .music-crop-madison {
+  transform: scale(1.48);
+}
+.music-artist figcaption {
+  margin-top: 0.55rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
 @keyframes path-fade {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -377,7 +533,7 @@ img { max-width: 100%; display: block; }
 }
 .hero-bio p + p { margin-top: 1rem; }
 .hero-bio a { border-bottom: 1px solid var(--accent-soft); }
-.hero-bio strong { font-weight: 600; color: var(--text); }
+.hero-bio strong { font-weight: 600; }
 .hero-bio a strong { color: inherit; }
 
 .hero-contact {
@@ -975,4 +1131,17 @@ a.contact-value:hover { color: var(--accent); }
   .projects-swipe-hint { display: block; }
   .blog-grid,
   .dance-grid { grid-template-columns: 1fr; }
+  .music-feature {
+    flex-direction: column;
+    text-align: center;
+  }
+  .music-feature-photo-wrap {
+    width: min(120px, 26vw);
+  }
+  .music-feature .music-feature-photo-wrap {
+    margin: 0 auto;
+  }
+  .music-artist-grid {
+    gap: 0.65rem;
+  }
 }
