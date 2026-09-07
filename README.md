@@ -7,12 +7,25 @@ Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTM
 ## Sections
 
 - **Home**
-- **Education**
-- **Experience**
-- **Skills**
+- **Education** / **Experience** / **Skills**
 - **Projects**
 - **Blog**
-- **Dance**
+- **Random**
+  - **Dance**
+  - **Music**
+  - **Travel**
+  - **Content**
+- **Sky**
+- **Contact**
+
+## Content updates
+
+- Featured blog posts: edit `data/blog.json` and add images under `assets/blog/`
+- Dance reels: edit `data/dance.json` and add images under `assets/dance/`
+- Music photos: add files under `assets/music/` and point to them from the Music tab in `index.html`
+- Search snippet: edit the `<meta name="description">` tag in `index.html`
+
+The Sky visit count is stored on [Abacus](https://abacus.jsn.cam), not in this repo. The page increments a public counter (`pragyasen-github-io` / `personal-website-sky`) once per browser tab session.
 
 ## Local development
 
@@ -21,8 +34,6 @@ npx serve .
 ```
 
 Preview at http://localhost:3000.
-
-To update featured blog or dance posts, edit `data/blog.json` or `data/dance.json` and add images under `assets/`.
 
 ## Deployment
 
