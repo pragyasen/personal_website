@@ -1102,6 +1102,51 @@ a.contact-value:hover { color: var(--accent); }
 .dance-card:hover .dance-card-hover { opacity: 1; }
 .dance-footer { text-align: center; margin-top: 2.5rem; }
 
+/* ── Travel ── */
+.travel-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+}
+.travel-card {
+  margin: 0;
+  text-align: center;
+}
+.travel-photo-wrap {
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.travel-photo-wrap:hover {
+  border-color: rgba(142, 192, 234, 0.35);
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 28px rgba(142, 192, 234, 0.2);
+}
+.travel-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  filter: grayscale(1);
+  transition: filter var(--transition);
+}
+.travel-photo-wrap:hover .travel-photo {
+  filter: grayscale(0);
+}
+.travel-place {
+  margin-top: 0.7rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
 /* ── Digital sky ── */
 #sky .section-header {
   margin-bottom: 1.1rem;
@@ -1263,7 +1308,12 @@ a.contact-value:hover { color: var(--accent); }
   }
   .projects-swipe-hint { display: block; }
   .blog-grid,
-  .dance-grid { grid-template-columns: 1fr; }
+  .dance-grid,
+  .travel-grid { grid-template-columns: 1fr; }
+  .travel-grid {
+    max-width: 280px;
+    margin: 0 auto;
+  }
   .music-feature {
     flex-direction: column;
     text-align: center;
