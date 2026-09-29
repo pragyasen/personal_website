@@ -266,7 +266,7 @@ initSectionTabs(document.querySelector('.path-section'), {
 });
 
 initSectionTabs(document.getElementById('random'), {
-  allowed: ['dance', 'music', 'travel', 'content'],
+  allowed: ['dance', 'music', 'travel'],
   defaultTab: 'dance',
   hashMode: 'section',
 });

@@ -14,7 +14,6 @@ Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTM
   - **Dance**
   - **Music**
   - **Travel**
-  - **Content**
 - **Sky**
 - **Contact**
 
