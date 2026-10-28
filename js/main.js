@@ -295,7 +295,7 @@ async function loadBlog() {  const grid = document.getElementById('blog-grid');
     }
 
     grid.innerHTML = posts.map((post) => `
-      <article class="blog-card reveal">
+      <a class="blog-card reveal" href="${post.link}" target="_blank" rel="noopener noreferrer">
         ${post.image ? `<img class="blog-card-image" src="${post.image}" alt="" loading="lazy" />` : ''}
         <div class="blog-card-body">
           <time class="blog-card-date">${formatDate(post.date)}</time>
@@ -306,9 +306,8 @@ async function loadBlog() {  const grid = document.getElementById('blog-grid');
               ${post.tags.slice(0, 3).map((t) => `<span class="blog-tag">${escapeHtml(t)}</span>`).join('')}
             </div>
           ` : ''}
-          <a class="blog-card-link" href="${post.link}" target="_blank" rel="noopener noreferrer">Read on Medium →</a>
         </div>
-      </article>
+      </a>
     `).join('');
 
     grid.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
@@ -464,3 +463,80 @@ function initDigitalSky() {
     }
   })();
 }
+
+// ── Trailing cursor ──
+(function initCursorTrail() {
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!finePointer || reduceMotion) return;
+
+  const COUNT = 7;
+  const trail = document.createElement('div');
+  trail.className = 'cursor-trail';
+  trail.setAttribute('aria-hidden', 'true');
+
+  const dots = [];
+  for (let i = 0; i < COUNT; i += 1) {
+    const dot = document.createElement('span');
+    dot.className = 'cursor-trail-dot';
+    trail.appendChild(dot);
+    dots.push({
+      el: dot,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
+  }
+  document.body.appendChild(trail);
+  document.body.classList.add('has-cursor-trail');
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let visible = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!visible) {
+      visible = true;
+      dots.forEach((dot) => {
+        dot.x = mouseX;
+        dot.y = mouseY;
+        dot.el.style.opacity = '1';
+      });
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    visible = false;
+    dots.forEach((dot) => {
+      dot.el.style.opacity = '0';
+    });
+  });
+
+  document.addEventListener('mouseenter', () => {
+    visible = true;
+  });
+
+  function frame() {
+    let x = mouseX;
+    let y = mouseY;
+
+    dots.forEach((dot, i) => {
+      const lag = i === 0 ? 0.45 : 0.32;
+      dot.x += (x - dot.x) * lag;
+      dot.y += (y - dot.y) * lag;
+
+      const scale = 1 - i * 0.1;
+      const opacity = visible ? Math.max(0.2, 1 - i * 0.16) : 0;
+      dot.el.style.transform = `translate3d(${dot.x}px, ${dot.y}px, 0) scale(${scale})`;
+      dot.el.style.opacity = String(opacity);
+
+      x = dot.x;
+      y = dot.y;
+    });
+
+    requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
+})();
