@@ -134,13 +134,14 @@ function initSnapCarousel({ carousel, nav, dotsEl, prevBtn, nextBtn, hint, nextL
 
   function updateNav() {
     const page = activePage();
-    const atStart = page === 0;
-    const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10;
+    const pages = pageCount();
+    const atStart = page <= 0;
+    const atEnd = page >= pages - 1;
     dotsEl.querySelectorAll('.projects-scroll-dot').forEach((dot) => {
       dot.classList.toggle('active', parseInt(dot.dataset.page, 10) === page);
     });
     prevBtn.classList.toggle('hidden', atStart);
-    nextBtn.classList.toggle('hidden', atEnd || pageCount() <= 1);
+    nextBtn.classList.toggle('hidden', atEnd || pages <= 1);
     if (nextLabels?.length) {
       nextBtn.textContent = nextLabels[page] || 'more →';
     }
@@ -281,38 +282,52 @@ initSnapCarousel({
 });
 
 // ── Load blog posts ──
-async function loadBlog() {  const grid = document.getElementById('blog-grid');
+function renderBlogColumn(column) {
+  const posts = column.posts || [];
+  const items = posts.length
+    ? posts.map((post, i) => `
+        <li class="blog-list-item">
+          <a class="blog-list-link" href="${post.link}" target="_blank" rel="noopener noreferrer">
+            <span class="blog-list-index">${String(i + 1).padStart(2, '0')}</span>
+            <span class="blog-list-title">${escapeHtml(post.title)}</span>
+            <time class="blog-list-date" datetime="${post.date}">${formatDateShort(post.date)}</time>
+          </a>
+        </li>
+      `).join('')
+    : `<li class="blog-list-empty">nothing here yet — watch this space</li>`;
+
+  const footer = column.profile
+    ? `<a class="blog-column-footer" href="${column.profile}" target="_blank" rel="noopener noreferrer">${escapeHtml(column.profileLabel || 'View all →')}</a>`
+    : '';
+
+  return `
+    <div class="blog-column reveal">
+      <h3 class="blog-column-title">${escapeHtml(column.label)}</h3>
+      <ol class="blog-list">${items}</ol>
+      ${footer}
+    </div>
+  `;
+}
+
+async function loadBlog() {
+  const root = document.getElementById('blog-columns');
 
   try {
     const response = await fetch('data/blog.json');
     if (!response.ok) throw new Error('Failed to load blog data');
 
-    const { posts } = await response.json();
+    const data = await response.json();
+    const columns = [data.personal, data.work].filter(Boolean);
 
-    if (!posts || posts.length === 0) {
-      grid.innerHTML = '<p class="blog-loading">No posts found.</p>';
+    if (!columns.length) {
+      root.innerHTML = '<p class="blog-loading">No posts found.</p>';
       return;
     }
 
-    grid.innerHTML = posts.map((post) => `
-      <a class="blog-card reveal" href="${post.link}" target="_blank" rel="noopener noreferrer">
-        ${post.image ? `<img class="blog-card-image" src="${post.image}" alt="" loading="lazy" />` : ''}
-        <div class="blog-card-body">
-          <time class="blog-card-date">${formatDate(post.date)}</time>
-          <h3 class="blog-card-title">${escapeHtml(post.title)}</h3>
-          <p class="blog-card-excerpt">${escapeHtml(post.excerpt)}</p>
-          ${post.tags?.length ? `
-            <div class="blog-tags">
-              ${post.tags.slice(0, 3).map((t) => `<span class="blog-tag">${escapeHtml(t)}</span>`).join('')}
-            </div>
-          ` : ''}
-        </div>
-      </a>
-    `).join('');
-
-    grid.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+    root.innerHTML = columns.map(renderBlogColumn).join('');
+    root.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
   } catch {
-    grid.innerHTML = `
+    root.innerHTML = `
       <p class="blog-loading">
         Couldn't load posts right now.
         <a href="https://medium.com/@pragya_sen1" target="_blank" rel="noopener noreferrer">Visit Medium →</a>
@@ -361,6 +376,14 @@ function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
+    day: 'numeric',
+  });
+}
+
+function formatDateShort(iso) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
     day: 'numeric',
   });
 }
@@ -466,9 +489,11 @@ function initDigitalSky() {
 
 // ── Trailing cursor ──
 (function initCursorTrail() {
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  // Use any-* queries so Windows touchscreen laptops still get the trail with a mouse.
+  // (pointer: fine) alone can fail when touch is the "primary" pointer.
+  const canUseTrail = window.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!finePointer || reduceMotion) return;
+  if (!canUseTrail || reduceMotion) return;
 
   const COUNT = 7;
   const trail = document.createElement('div');

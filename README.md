@@ -19,7 +19,7 @@ Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTM
 
 ## Content updates
 
-- Featured blog posts: edit `data/blog.json` and add images under `assets/blog/`
+- Blog posts: edit `data/blog.json` — add personal posts under `personal.posts` and company posts under `work.posts`
 - Dance reels: edit `data/dance.json` and add images under `assets/dance/`
 - Music photos: add files under `assets/music/` and point to them from the Music tab in `index.html`
 - Search snippet: edit the `<meta name="description">` tag in `index.html`
