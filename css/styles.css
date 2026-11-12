@@ -912,9 +912,8 @@ a.contact-value:hover { color: var(--accent); }
 .projects-nav-prev:focus-visible,
 .projects-nav-next:focus-visible {
   background: var(--accent-soft);
-  border-color: var(--accent-hover);
-  color: var(--accent-hover);
-  box-shadow: 0 0 0 1px var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .projects-nav-prev.hidden,
 .projects-nav-next.hidden {
@@ -1037,7 +1036,9 @@ a.contact-value:hover { color: var(--accent); }
   color: var(--accent);
 }
 .blog-column-footer:hover {
-  color: var(--accent-hover);
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 /* ── Section intro (blog, dance) ── */
@@ -1227,11 +1228,14 @@ a.contact-value:hover { color: var(--accent); }
   color: var(--accent);
   border: 1px solid var(--accent);
   border-radius: 100px;
-  transition: background var(--transition), color var(--transition);
+  background: none;
+  transition: background var(--transition), border-color var(--transition);
 }
+a.btn-outline:hover,
 .btn-outline:hover {
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ── Footer ── */
