@@ -2,7 +2,7 @@
 
 Portfolio site for [Pragya Sen](https://medium.com/@pragya_sen1), built with HTML/CSS/JS and deployed on GitHub Pages.
 
-**Live site:** https://pragyasen.github.io/personal_website/
+**Live site:** https://pragya-sen.com/
 
 ## Sections
 
